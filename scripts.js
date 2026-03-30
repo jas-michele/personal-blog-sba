@@ -8,10 +8,10 @@ let editingPostId = null;
 window.addEventListener("load", () => {
     const savedPost = JSON.parse(localStorage.getItem('blog'));
 
-    if(savedPost) {
+    if (savedPost) {
 
         posts = savedPost;
-        
+
     }
 
     renderPost();
@@ -31,7 +31,7 @@ function createPost(e) {
         title.setCustomValidity("Please enter a title");
         title.reportValidity();
         isValid = false;
-    }else{
+    } else {
         title.setCustomValidity = "";
     }
 
@@ -41,8 +41,8 @@ function createPost(e) {
         isValid = false;
     }
 
-    if(!isValid) return;
-        
+    if (!isValid) return;
+
     if (editingPostId) {
         const post = posts.find(p => p.Id === editingPostId)
 
@@ -51,21 +51,21 @@ function createPost(e) {
 
         editingPostId = null;
     } else {
-        
-         const blog = {
+
+        const blog = {
             Id: crypto.randomUUID(),
             Title: title.value,
             Message: message.value,
             TimeStamp: new Date().getTime()
-         };
+        };
 
-    posts.push(blog);
-}
+        posts.push(blog);
+    }
 
     localStorage.setItem('blog', JSON.stringify(posts));
     renderPost();
     form.reset();
-    
+
 }
 
 function renderPost() {
@@ -75,43 +75,43 @@ function renderPost() {
 
     posts.forEach(post => {
 
-    const listItem = document.createElement("li");
+        const listItem = document.createElement("li");
 
-    const titleEl = document.createElement('h3');
-    titleEl.textContent = post.Title;
+        const titleEl = document.createElement('h3');
+        titleEl.textContent = post.Title;
 
-    const messageEl = document.createElement('p');
-    messageEl.textContent = post.Message;
-    
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
-    editBtn.addEventListener("click", () => editPost(post.Id));
+        const messageEl = document.createElement('p');
+        messageEl.textContent = post.Message;
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", () => deletePost(post.Id));
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.addEventListener("click", () => editPost(post.Id));
 
-    listItem.appendChild(titleEl);
-    listItem.appendChild(messageEl);
-    listItem.appendChild(editBtn);
-    listItem.appendChild(deleteBtn);
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", () => deletePost(post.Id));
 
-    console.log(listItem)
+        listItem.appendChild(titleEl);
+        listItem.appendChild(messageEl);
+        listItem.appendChild(editBtn);
+        listItem.appendChild(deleteBtn);
 
-    blogPosts.appendChild(listItem);    
+        console.log(listItem)
+
+        blogPosts.appendChild(listItem);
 
     })
 }
 
 function editPost(id) {
-  const post = posts.find(p => p.Id === id);
+    const post = posts.find(p => p.Id === id);
 
     title.value = post.Title;
     message.value = post.Message;
 
     editingPostId = id;
 
-    
+
 }
 
 function deletePost(id) {
@@ -120,7 +120,7 @@ function deletePost(id) {
     localStorage.setItem('blog', JSON.stringify(posts));
 
     renderPost();
-  
+
 }
-    
+
 
